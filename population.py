@@ -17,6 +17,7 @@ class POPULATION:
 		for i in self.p:
 			self.p[i].fitness = 0
 		for e in range(c.numEnvs):
+			envs.envs[e].buildEnvironment()
 			for i in self.p:
 				self.p[i].Start_Evaluation(envs.envs[e], pp, pb)
 			for i in self.p:

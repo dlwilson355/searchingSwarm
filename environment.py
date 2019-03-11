@@ -9,22 +9,22 @@ class ENVIRONMENT:
 		self.boxCoordinates = []
 		self.vestibularSensors = []
 
-	def buildEnvironment(self, sim):
-		self.boxes = []
+	def buildEnvironment(self):
 		self.boxCoordinates = []
-		self.vestibularSensors = []
 		for i in range(c.numObjects):
 			x = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
 			y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
-			box = sim.send_box(x=x, y=y, z=c.objectHeight/2, length=c.objectLength, width=c.objectWidth, height=c.objectHeight, r=.5, g=.5, b=.5)
-			vestibularSensor = sim.send_vestibular_sensor(body_id=box)
-			self.boxes.append(box)
 			self.boxCoordinates.append((x, y))
-			self.vestibularSensors.append(vestibularSensor)
-			#lightSource = sim.send_box(x=2, y=2, z=c.objectSize/2, length=c.objectSize, width=c.objectSize, height=c.objectSize, r=.5, g=.5, b=.5)
-			#sim.send_light_source(body_id=lightSource)
-			#self.lightSources.append(lightSource)
 
+	def sendEnvironmentToSimulator(self, sim):
+		self.boxes = []
+		self.vestibularSensors = []
+		for coordinate in self.boxCoordinates:
+			box1 = sim.send_box(x=coordinate[0], y=coordinate[1], z=c.objectHeight/2, length=c.objectLength, width=c.objectWidth, height=c.objectHeight, r=.5, g=.5, b=.5)
+			box2 = sim.send_box(x=coordinate[0], y=coordinate[1], z=c.objectHeight/2, length=c.objectWidth, width=c.objectLength, height=c.objectHeight, r=.5, g=.5, b=.5)
+			vestibularSensor = sim.send_vestibular_sensor(body_id=box1)
+			self.boxes.append((box1, box2))
+			self.vestibularSensors.append(vestibularSensor)
 
 	def countKnockedOver(self, sim):
 		knockedOver = 0
