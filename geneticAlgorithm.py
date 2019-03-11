@@ -6,7 +6,7 @@ envs = ENVIRONMENTS()
 
 parents = POPULATION(c.popSize)
 parents.Initialize()
-parents.Evaluate(envs, pp=True, pb=False)
+parents.Evaluate(envs, pp=True, pb=True)
 
 
 for g in range(1, c.numGens+1):

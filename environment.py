@@ -10,19 +10,21 @@ class ENVIRONMENT:
 		self.vestibularSensors = []
 
 	def buildEnvironment(self, sim):
+		self.boxes = []
+		self.boxCoordinates = []
+		self.vestibularSensors = []
 		for i in range(c.numObjects):
-			x = random.randrange(-c.objectDistanceRange, c.objectDistanceRange)
-			y = random.randrange(-c.objectDistanceRange, c.objectDistanceRange)
-			box = sim.send_box(x=x, y=y, z=c.objectHeight/2, length=c.objectWidth, width=c.objectWidth, height=c.objectHeight, r=.5, g=.5, b=.5)
+			x = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
+			y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
+			box = sim.send_box(x=x, y=y, z=c.objectHeight/2, length=c.objectLength, width=c.objectWidth, height=c.objectHeight, r=.5, g=.5, b=.5)
 			vestibularSensor = sim.send_vestibular_sensor(body_id=box)
 			self.boxes.append(box)
 			self.boxCoordinates.append((x, y))
-			print("coordinates")
-			print(self.boxCoordinates)
 			self.vestibularSensors.append(vestibularSensor)
 			#lightSource = sim.send_box(x=2, y=2, z=c.objectSize/2, length=c.objectSize, width=c.objectSize, height=c.objectSize, r=.5, g=.5, b=.5)
 			#sim.send_light_source(body_id=lightSource)
 			#self.lightSources.append(lightSource)
+
 
 	def countKnockedOver(self, sim):
 		knockedOver = 0
@@ -39,8 +41,6 @@ class ENVIRONMENT:
 			if (distance < nearestDistance):
 				nearestCoordinate = boxCoordinate
 				nearestDistance = distance
-		print("nearest coordinate")
-		print(nearestCoordinate)
 		return (nearestDistance)
 
 	def computeEuclideanDistance(self, coordinate1, coordinate2):
