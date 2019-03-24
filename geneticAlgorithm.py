@@ -1,12 +1,16 @@
 from environments import ENVIRONMENTS
 from population import POPULATION
 import constants as c
+import pickle
 
 envs = ENVIRONMENTS()
 
-parents = POPULATION(c.popSize)
-parents.Initialize()
-parents.Evaluate(envs, pp=True, pb=True)
+if (c.loadPickledPopulation):
+	parents = pickle.load(open("save4.txt", "rb"))
+else:
+	parents = POPULATION(c.popSize)
+	parents.Initialize()
+	parents.Evaluate(envs, pp=True, pb=True)
 
 
 for g in range(1, c.numGens+1):
@@ -17,6 +21,7 @@ for g in range(1, c.numGens+1):
 	children.Print()
 	parents = children
 
+pickle.dump(parents, open("save5.txt", "wb"))
 bestPop = POPULATION(1)
 bestPop.p[0] = parents.p[0]
 bestPop.Evaluate(envs, pp=False, pb=False)
