@@ -1,6 +1,7 @@
 import constants as c
 import random
 import math
+from fallingObject import FALLING_OBJECT
 
 class ENVIRONMENT:
 	def __init__(self, id, numObjects):
@@ -8,6 +9,7 @@ class ENVIRONMENT:
 		self.boxes = []
 		self.boxCoordinates = []
 		self.vestibularSensors = []
+		self.fallingObjects = []
 
 	def buildEnvironment(self):
 		self.boxCoordinates = []
@@ -16,7 +18,12 @@ class ENVIRONMENT:
 			y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
 			self.boxCoordinates.append((x, y))
 
+	def createFallingObjects(self, sim):
+		for i in range(2):
+			self.fallingObjects.append(FALLING_OBJECT(sim))
+
 	def sendEnvironmentToSimulator(self, sim):
+		#self.createFallingObjects(sim)
 		self.boxes = []
 		self.vestibularSensors = []
 		for coordinate in self.boxCoordinates:

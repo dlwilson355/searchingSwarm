@@ -23,8 +23,10 @@ play_blind = pb)
 		self.sim.wait_to_finish()
 		#env.countKnockedOver(self.sim)
 		position = self.robot.getXYPosition(self.sim)
-		self.fitness -= env.getNearestDistance(position)
-		self.fitness += math.sqrt(position[0]**2 + position[1]**2)/4
+		print("lost %.2f" % (env.getNearestDistance(position)+1)**2)
+		print("earned %.2f" % (math.sqrt(position[0]**2 + position[1]**2)))
+		self.fitness -= (env.getNearestDistance(position)+1)**2
+		self.fitness += math.sqrt(position[0]**2 + position[1]**2)
 		#self.fitness += math.sqrt((0-self.sim.get_sensor_data(sensor_id = self.robot.P1, svi=0)[-1])**2 + (0-self.sim.get_sensor_data(sensor_id = self.robot.P1, svi=1)[-1])**2)
 		#self.fitness += self.sim.get_sensor_data(sensor_id = self.robot.L1)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L2)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L3)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L4)[-1]
 		del self.sim

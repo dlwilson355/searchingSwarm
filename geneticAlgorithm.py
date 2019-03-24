@@ -10,7 +10,7 @@ if (c.loadPickledPopulation):
 else:
 	parents = POPULATION(c.popSize)
 	parents.Initialize()
-	parents.Evaluate(envs, pp=True, pb=True)
+	parents.Evaluate(envs, pp=True, pb=False)
 
 
 for g in range(1, c.numGens+1):
