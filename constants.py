@@ -3,6 +3,9 @@ R = L/5
 evalTime = 2000
 wheelRadius = 0.05
 
+# robot constants
+robotStartDistanceRange = .01
+
 # environmental object constants
 numObjects = 20
 objectDistanceRange = 2.5
