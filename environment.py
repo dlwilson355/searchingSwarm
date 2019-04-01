@@ -6,47 +6,36 @@ from fallingObject import FALLING_OBJECT
 class ENVIRONMENT:
 	def __init__(self, id, numObjects):
 		self.id = id
-		self.boxes = []
-		self.boxCoordinates = []
-		self.vestibularSensors = []
 		self.fallingObjects = []
 
 	def buildEnvironment(self):
-		self.boxCoordinates = []
+		self.fallingObjects = []
 		for i in range(c.numObjects):
-			x = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
-			y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
-			self.boxCoordinates.append((x, y))
-
-	def createFallingObjects(self, sim):
-		for i in range(2):
-			self.fallingObjects.append(FALLING_OBJECT(sim))
-
+			self.fallingObjects.append(FALLING_OBJECT())
+		
 	def sendEnvironmentToSimulator(self, sim):
-		#self.createFallingObjects(sim)
-		self.boxes = []
-		self.vestibularSensors = []
-		for coordinate in self.boxCoordinates:
-			box1 = sim.send_box(x=coordinate[0], y=coordinate[1], z=c.objectHeight/2, length=c.objectLength, width=c.objectWidth, height=c.objectHeight, r=.5, g=.5, b=.5)
-			box2 = sim.send_box(x=coordinate[0], y=coordinate[1], z=c.objectHeight/2, length=c.objectWidth, width=c.objectLength, height=c.objectHeight, r=.5, g=.5, b=.5)
-			vestibularSensor = sim.send_vestibular_sensor(body_id=box1)
-			self.boxes.append((box1, box2))
-			self.vestibularSensors.append(vestibularSensor)
+		for fallingObject in self.fallingObjects:
+			fallingObject.sendToSim(sim)
+		sim.send_box(x=0, y=0, z=c.platformHeight/2, length=c.platformLength, width=c.platformLength, height=c.platformHeight, r=1, g=1, b=1, collision_group = "ground")
+		sim.assign_collision("knock", "topple")
+		sim.assign_collision("topple", "topple")
+		sim.assign_collision("stand", "ground")
+		sim.assign_collision("knock", "ground")
 
 	def countKnockedOver(self, sim):
 		knockedOver = 0
-		for sensor in self.vestibularSensors:
-			if (sim.get_sensor_data(sensor_id = sensor)[-1]):
-				++knockedOver
+		for fallingObject in self.fallingObjects:
+			if (fallingObject.knockedOver(sim)):
+				knockedOver += 1
 		return (knockedOver)
 
 	def getNearestDistance(self, coordinate):
-		nearestCoordinate = self.boxCoordinates[0]
-		nearestDistance = self.computeEuclideanDistance(coordinate, self.boxCoordinates[0])
-		for boxCoordinate in self.boxCoordinates[1:]:
-			distance = self.computeEuclideanDistance(coordinate, boxCoordinate)
+		nearestCoordinate = self.fallingObjects[0]
+		nearestDistance = self.computeEuclideanDistance(coordinate, self.fallingObjects[0].getCoordinates())
+		for fallingObject in self.fallingObjects[1:]:
+			distance = self.computeEuclideanDistance(coordinate, fallingObject.getCoordinates())
 			if (distance < nearestDistance):
-				nearestCoordinate = boxCoordinate
+				nearestCoordinate = fallingObject.getCoordinates()
 				nearestDistance = distance
 		return (nearestDistance)
 

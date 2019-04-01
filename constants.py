@@ -4,15 +4,17 @@ evalTime = 2000
 wheelRadius = 0.05
 
 # environmental object constants
-numObjects = 3
+numObjects = 20
 objectDistanceRange = 2.5
-objectWidth = 0.03
-objectLength = 0.7
-objectHeight = 0.7
-standBase = 0.05
+objectWidth = 0.02
+objectLength = 0.3
+objectHeight = 0.5
+standBase = 0.03
+platformLength = 10
+platformHeight = .2
 
 # genetic algorithm settings
-loadPickledPopulation = False
-popSize = 1
-numGens = 50
-numEnvs = 10
+loadPickledPopulation = True
+popSize = 10
+numGens = 30
+numEnvs = 50
