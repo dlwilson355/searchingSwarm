@@ -15,6 +15,6 @@ platformHeight = .2
 
 # genetic algorithm settings
 loadPickledPopulation = True
-popSize = 10
+swarmSize = 10
 numGens = 30
-numEnvs = 50
+numEnvs = 5

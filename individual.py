@@ -12,6 +12,9 @@ class INDIVIDUAL:
 		self.fitness = 0
 		self.ID = i
 
+	def sendRobotToSimulator(self, sim):
+		self.robot = ROBOT(sim, self.genome)
+
 	def Start_Evaluation(self, env, pp, pb):
 		self.sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
 play_blind = pb)

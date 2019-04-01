@@ -6,22 +6,22 @@ import pickle
 envs = ENVIRONMENTS()
 
 if (c.loadPickledPopulation):
-	parents = pickle.load(open("save2.txt", "rb"))
+	parents = pickle.load(open("working.txt", "rb"))
 else:
 	parents = POPULATION(c.popSize)
 	parents.Initialize()
-	parents.Evaluate(envs, pp=True, pb=True)
+	parents.Evaluate(envs, pp=True, pb=False)
 
 
 for g in range(1, c.numGens+1):
-	children = POPULATION(c.popSize)
+	children = POPULATION(c.swarmSize)
 	children.Fill_From(parents)
-	children.Evaluate(envs, pp=False, pb=True)
+	children.evaluateSwarm(envs, pp=False, pb=False)
 	print(g),
 	children.Print()
 	parents = children
 
-pickle.dump(parents, open("save2.txt", "wb"))
+pickle.dump(parents, open("save.txt", "wb"))
 bestPop = POPULATION(1)
 bestPop.p[0] = parents.p[0]
 bestPop.Evaluate(envs, pp=False, pb=True)

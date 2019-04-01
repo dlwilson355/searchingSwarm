@@ -2,6 +2,7 @@ from individual import INDIVIDUAL
 import copy
 import random
 import constants as c
+import pyrosim
 
 class POPULATION:
 	def __init__(self, popSize):
@@ -24,6 +25,22 @@ class POPULATION:
 				self.p[i].Compute_Fitness(envs.envs[e])
 		for i in self.p:
 			self.p[i].fitness /= c.numEnvs
+
+	def evaluateSwarm(self, envs, pp, pb):
+		for i in self.p:
+			self.p[i].fitness = 0.0
+		for e in range(c.numEnvs):
+			sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
+	play_blind = pb)
+			for i in self.p:
+				self.p[i].sendRobotToSimulator(sim)
+			envs.envs[e].buildEnvironment()
+			envs.envs[e].sendEnvironmentToSimulator(sim)
+			sim.start()
+			print("started sim")
+			sim.wait_to_finish()
+			print("sim done")
+			del sim
 
 	def Mutate(self):
 		for i in self.p:
