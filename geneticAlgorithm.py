@@ -1,27 +1,26 @@
 from environments import ENVIRONMENTS
-from population import POPULATION
+from swarm import SWARM
 import constants as c
 import pickle
 
 envs = ENVIRONMENTS()
 
 if (c.loadPickledPopulation):
-	parents = pickle.load(open("working.txt", "rb"))
+	parents = pickle.load(open("save.txt", "rb"))
 else:
-	parents = POPULATION(c.popSize)
+	parents = SWARM(c.swarmSize)
 	parents.Initialize()
-	parents.Evaluate(envs, pp=True, pb=False)
+	parents.evaluateSwarmInParallel(envs, pp=True, pb=True)
 
 
 for g in range(1, c.numGens+1):
-	children = POPULATION(c.swarmSize)
-	children.Fill_From(parents)
-	children.evaluateSwarm(envs, pp=False, pb=False)
+	children = SWARM(c.swarmSize)
+	children.Fill_From(parents, c.copyBest)
+	children.evaluateSwarmInParallel(envs, pp=False, pb=True)
 	print(g),
 	children.Print()
 	parents = children
+	pickle.dump(parents, open("save.txt", "wb"))
 
 pickle.dump(parents, open("save.txt", "wb"))
-bestPop = POPULATION(1)
-bestPop.p[0] = parents.p[0]
-bestPop.Evaluate(envs, pp=False, pb=True)
+parents.evaluateSwarm(envs, pp=False, pb=False)

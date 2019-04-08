@@ -36,6 +36,19 @@ play_blind = pb)
 		#self.fitness += self.sim.get_sensor_data(sensor_id = self.robot.L1)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L2)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L3)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L4)[-1]
 		del self.sim
 
+	# this is my new fitness function for calculating the fitness of an individual with the swarm
+	def updateFitness(self, sim, wallsKnockedOver, positionalData):
+		self.fitness += 5 * wallsKnockedOver
+		x = positionalData[0][-1]
+		y = positionalData[1][-1]
+		distanceTraveled = math.sqrt(x**2 + y**2)
+		self.fitness += distanceTraveled
+
+	def getPositionalData(self, env, sim):
+		xPositions = sim.get_sensor_data(sensor_id = self.robot.P1, svi=0)
+		yPositions = sim.get_sensor_data(sensor_id = self.robot.P1, svi=1)
+		return ((xPositions, yPositions))
+
 	def Mutate(self):
 		shape = self.genome.shape
 		geneToMutate = (random.randint(0, shape[0]-1), random.randint(0, shape[1]-1))
@@ -50,3 +63,9 @@ play_blind = pb)
 		print(self.ID),
 		print(self.fitness),
 		print('] '),
+
+	def __lt__(self, other):
+		return (self.fitness < other.fitness)
+
+	def __gt__(self, other):
+		return (self.fitness > other.fitness)

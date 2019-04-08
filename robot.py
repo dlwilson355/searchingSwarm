@@ -106,6 +106,18 @@ class ROBOT:
 		for j in self.J:
 			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.5)
 
+	# creates a more complex network
+	def sendNeuronsComplex(self, sim):
+		self.SN = {}
+		for s in self.S:
+			self.SN[s] = sim.send_sensor_neuron(sensor_id = self.S[s])
+		self.HN = {}
+		for i in range(len(self.SN) + len(self.MN)):
+			self.HN[i] = sim.send_hidden_neuron()
+		self.MN = {}
+		for j in self.J:
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.5)
+
 	def send_synapses(self, sim, wts):
 		for j in self.SN:
 			for i in self.MN:

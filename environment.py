@@ -16,11 +16,12 @@ class ENVIRONMENT:
 	def sendEnvironmentToSimulator(self, sim):
 		for fallingObject in self.fallingObjects:
 			fallingObject.sendToSim(sim)
-		sim.send_box(x=0, y=0, z=c.platformHeight/2, length=c.platformLength, width=c.platformLength, height=c.platformHeight, r=1, g=1, b=1, collision_group = "ground")
+		#sim.send_box(x=0, y=0, z=c.platformHeight/2, length=c.platformLength, width=c.platformLength, height=c.platformHeight, r=1, g=1, b=1, collision_group = "ground")
 		sim.assign_collision("knock", "topple")
-		sim.assign_collision("topple", "topple")
-		sim.assign_collision("stand", "ground")
-		sim.assign_collision("knock", "ground")
+		#sim.assign_collision("topple", "topple")
+		#sim.assign_collision("stand", "ground")
+		#sim.assign_collision("knock", "ground")
+		#sim.assign_collision("stand", "stand")
 
 	def countKnockedOver(self, sim):
 		knockedOver = 0
@@ -44,3 +45,13 @@ class ENVIRONMENT:
 		yDiff = coordinate1[1] - coordinate2[1]
 		distance = math.sqrt(xDiff**2 + yDiff**2)
 		return (distance)
+
+	# takes a list of measurement's from each robot's position sensor and counts how many fallers in the environment that robot knocked over
+	# returns a list of how many follows each robot knocked over with entries in the index corresponding to that robot's index in positionalData
+	def countRobotKnockOvers(self, sim, positionalData):
+		knockOvers = [0 for i in positionalData]
+		for fallingObject in self.fallingObjects:
+			knockedOverIndex = fallingObject.getKnockedOverBy(sim, positionalData)
+			if (not knockedOverIndex == -1):
+				knockOvers[knockedOverIndex] += 1
+		return (knockOvers)
