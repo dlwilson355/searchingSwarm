@@ -1,24 +1,25 @@
 L = .1
 R = L/5
-evalTime = 2000
+evalTime = 2500
 wheelRadius = 0.05
 
 # robot constants
 robotStartDistanceRange = 2
+robotZShift = .1
 
 # environmental object constants
-numObjects = 20
+numObjects = 50
 objectDistanceRange = 2.5
 objectWidth = 0.02
 objectLength = 0.3
-objectHeight = 0.5
+objectHeight = 0.3
 standBase = 0.03
 platformLength = 10
-platformHeight = 0 #.2
+platformHeight = .03
 
 # genetic algorithm settings
 loadPickledPopulation = True
-swarmSize = 7
-copyBest = 4
+swarmSize = 10
+copyBest = 7
 numGens = 3000
-numEnvs = 12
+numEnvs = 24

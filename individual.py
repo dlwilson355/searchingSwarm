@@ -9,7 +9,7 @@ class INDIVIDUAL:
 	def __init__(self, i):
 		# shape of genome is (sensors, motors)
 		self.genome = numpy.random.random((9, 8)) * 2 - 1
-		self.fitness = 0
+		self.fitnesses = []
 		self.ID = i
 
 	def sendRobotToSimulator(self, sim):
@@ -38,11 +38,22 @@ play_blind = pb)
 
 	# this is my new fitness function for calculating the fitness of an individual with the swarm
 	def updateFitness(self, sim, wallsKnockedOver, positionalData):
-		self.fitness += 5 * wallsKnockedOver
+		fitness = 5 * wallsKnockedOver
 		x = positionalData[0][-1]
 		y = positionalData[1][-1]
 		distanceTraveled = math.sqrt(x**2 + y**2)
-		self.fitness += distanceTraveled
+		fitness += distanceTraveled
+		self.fitnesses.append(fitness)
+
+	def clearFitnessScores(self):
+		self.fitnesses = []
+
+	def getFitness(self):
+		self.fitnesses = sorted(self.fitnesses)
+		divider = int(len(self.fitnesses)/4)
+		fitnessesToUse = self.fitnesses[divider:-1*divider]
+		fitness = sum(fitnessesToUse) / len(fitnessesToUse)
+		return (fitness)
 
 	def getPositionalData(self, env, sim):
 		xPositions = sim.get_sensor_data(sensor_id = self.robot.P1, svi=0)
@@ -61,11 +72,11 @@ play_blind = pb)
 	def Print(self):
 		print('['),
 		print(self.ID),
-		print(self.fitness),
+		print(self.getFitness()),
 		print('] '),
 
 	def __lt__(self, other):
-		return (self.fitness < other.fitness)
+		return (self.getFitness() < other.getFitness())
 
 	def __gt__(self, other):
-		return (self.fitness > other.fitness)
+		return (self.getFitness() > other.getFitness())

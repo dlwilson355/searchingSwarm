@@ -16,7 +16,7 @@ class ENVIRONMENT:
 	def sendEnvironmentToSimulator(self, sim):
 		for fallingObject in self.fallingObjects:
 			fallingObject.sendToSim(sim)
-		#sim.send_box(x=0, y=0, z=c.platformHeight/2, length=c.platformLength, width=c.platformLength, height=c.platformHeight, r=1, g=1, b=1, collision_group = "ground")
+		sim.send_box(x=0, y=0, z=c.platformHeight/2, length=c.platformLength, width=c.platformLength, height=c.platformHeight, r=1, g=1, b=1, collision_group = "ground")
 		sim.assign_collision("knock", "topple")
 		#sim.assign_collision("topple", "topple")
 		#sim.assign_collision("stand", "ground")
