@@ -30,7 +30,6 @@ class SWARM:
 		for i in self.p:
 			self.p[i].fitness = 0.0
 		for e in range(c.numEnvs):
-			print("Env %d" % (e))
 			sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
 	play_blind = pb)
 			for i in self.p:
@@ -38,11 +37,8 @@ class SWARM:
 			envs.envs[e].buildEnvironment()
 			envs.envs[e].sendEnvironmentToSimulator(sim)
 			sim.start()
-			print("Started Sim")
 			sim.wait_to_finish()
-			print("Sim finished")
 			self.updateRobotFitnessValues(envs.envs[e], sim)
-			print("Updated fitness")
 			del sim
 
 	def evaluateSwarmInParallel(self, envs, pp, pb):
@@ -50,7 +46,6 @@ class SWARM:
 			self.p[i].clearFitnessScores()
 		sims = []
 		for e in range(c.numEnvs):
-			print("Env %d" % (e))
 			sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
 	play_blind = pb)
 			for i in self.p:
@@ -58,22 +53,19 @@ class SWARM:
 			envs.envs[e].buildEnvironment()
 			envs.envs[e].sendEnvironmentToSimulator(sim)
 			sim.start()
-			print("Started Sim")
 			sims.append(sim)
 
 		for e in range(c.numEnvs):
 			sim = sims[e]
 			sim.wait_to_finish()
-			print("Sim finished")
 			self.updateRobotFitnessValues(envs.envs[e], sim)
-			print("Updated fitness")
 			del sim
 
 	def updateRobotFitnessValues(self, env, sim):
 		positionalData = self.getPositionalData(env, sim)
 		numberObjectsKnockedOver = env.countRobotKnockOvers(sim, positionalData)
-		print("knocked over")
-		print(numberObjectsKnockedOver)
+		#print("knocked over")
+		#print(numberObjectsKnockedOver)
 		for i in range(len(numberObjectsKnockedOver)):
 			self.p[i].updateFitness(sim, numberObjectsKnockedOver[i], positionalData[i])
 
@@ -101,9 +93,7 @@ class SWARM:
 		self.Collect_Children_From(other)
 
 	def Fill_From(self, other, num):
-		print("Copying Best %d" % (num))
 		self.Copy_Best_From(other, num)
-		print("Collecting remaining")
 		self.Collect_Children_From(other)
 
 	def Copy_Best_From(self, other):
@@ -122,7 +112,6 @@ class SWARM:
 		i = 0
 		while (i < num):
 			self.p[i] = otherPopList[i]
-			print("copied %.2f" % (self.p[i].getFitness()))
 			i += 1
 
 	def Collect_Children_From(self, other):
@@ -132,7 +121,6 @@ class SWARM:
 			index = len(self.p)
 			self.p[index] = winner_copy
 			self.p[index].Mutate()
-			print("Added %.2f" % self.p[index].getFitness())
 
 	def Winner_Of_Tournament_Selection(other):
 		p1 = random.randint(0, other.popSize-1)

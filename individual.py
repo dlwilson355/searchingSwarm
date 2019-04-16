@@ -8,7 +8,7 @@ import constants as c
 class INDIVIDUAL:
 	def __init__(self, i):
 		# shape of genome is (sensors, motors)
-		self.genome = numpy.random.random((9, 8)) * 2 - 1
+		self.genome = numpy.random.random((6, 8)) * 2 - 1
 		self.fitnesses = []
 		self.ID = i
 
@@ -52,6 +52,8 @@ play_blind = pb)
 		self.fitnesses = sorted(self.fitnesses)
 		divider = int(len(self.fitnesses)/4)
 		fitnessesToUse = self.fitnesses[divider:-1*divider]
+		# temporary test
+		fitnessesToUse = self.fitnesses
 		fitness = sum(fitnessesToUse) / len(fitnessesToUse)
 		return (fitness)
 
@@ -72,7 +74,7 @@ play_blind = pb)
 	def Print(self):
 		print('['),
 		print(self.ID),
-		print(self.getFitness()),
+		print(round(self.getFitness(), 2)),
 		print('] '),
 
 	def __lt__(self, other):

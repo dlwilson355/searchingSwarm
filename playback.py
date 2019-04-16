@@ -5,4 +5,4 @@ import pickle
 
 envs = ENVIRONMENTS()
 parents = pickle.load(open("save.txt", "rb"))
-parents.evaluateSwarm(envs, pp=False, pb=False)
+parents.evaluateSwarm(envs, pp=True, pb=False)

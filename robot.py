@@ -74,10 +74,11 @@ class ROBOT:
 		#self.L2 = sim.send_light_sensor(body_id = self.O10)
 		#self.L3 = sim.send_light_sensor(body_id = self.O11)
 		#self.L4 = sim.send_light_sensor(body_id = self.O12)
-		self.R0 = sim.send_ray_sensor(body_id = self.O0, x = 0, y = c.L/2, z = c.L + c.R, r1 = 0, r2 = 1, r3 = 0, max_distance=10)
-		self.R1 = sim.send_ray_sensor(body_id = self.O0, x = c.L/2, y = 0, z = c.L + c.R, r1 = 1, r2 = 0, r3 = 0, max_distance=10)
-		self.R2 = sim.send_ray_sensor(body_id = self.O0, x = 0, y = -c.L/2, z = c.L + c.R, r1 = 0, r2 = -1, r3 = 0, max_distance=10)
-		self.R3 = sim.send_ray_sensor(body_id = self.O0, x = -c.L/2, y = 0, z = c.L + c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=10)
+		self.R0 = sim.send_ray_sensor(body_id = self.O0, x = self.startingX, y = c.L/2 + self.startingY, z = c.L+c.R + c.platformHeight + c.robotZShift, r1 = 0, r2 = 1, r3 = 0, max_distance=10)
+		#self.O8 = sim.send_sphere(x = self.startingX, y = c.L/2 + self.startingY, z = c.L + 2*c.R + c.platformHeight + c.robotZShift, radius=c.R, r=1, g=0, b=1, collision_group = "stand")
+		#self.R1 = sim.send_ray_sensor(body_id = self.O0, x = c.L/2, y = 0, z = c.L + c.R, r1 = 1, r2 = 0, r3 = 0, max_distance=10)
+		#self.R2 = sim.send_ray_sensor(body_id = self.O0, x = 0, y = -c.L/2, z = c.L + c.R, r1 = 0, r2 = -1, r3 = 0, max_distance=10)
+		#self.R3 = sim.send_ray_sensor(body_id = self.O0, x = -c.L/2, y = 0, z = c.L + c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=10)
 		self.V0 = sim.send_vestibular_sensor(body_id = self.O0)
 		#self.L4 = sim.send_light_sensor(body_id = self.O0)
 		self.P1 = sim.send_position_sensor(body_id = self.O0)
@@ -88,10 +89,10 @@ class ROBOT:
 		self.S[2] = self.T2
 		self.S[3] = self.T3
 		self.S[4] = self.R0
-		self.S[5] = self.R1
-		self.S[6] = self.R2
-		self.S[7] = self.R3
-		self.S[8] = self.V0
+		#self.S[5] = self.R1
+		#self.S[6] = self.R2
+		#self.S[7] = self.R3
+		self.S[5] = self.V0
 		#self.S[4] = self.L1
 		#self.S[5] = self.L2
 		#self.S[6] = self.L3
@@ -116,7 +117,8 @@ class ROBOT:
 			self.HN[i] = sim.send_hidden_neuron()
 		self.MN = {}
 		for j in self.J:
-			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.5)
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.3)
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j])
 
 	def send_synapses(self, sim, wts):
 		for j in self.SN:
