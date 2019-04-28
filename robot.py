@@ -2,7 +2,8 @@ import constants as c
 import random
 
 class ROBOT:
-	def __init__(self, sim, wts):
+	def __init__(self, sim, wts, color):
+		self.color = color
 		self.startingX = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
 		self.startingY = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
 		self.send_objects(sim)
@@ -17,19 +18,15 @@ class ROBOT:
 		del self.MN
 
 	def send_objects(self, sim):
-		self.O0 = sim.send_box(x=self.startingX, y=self.startingY, z=c.L + c.R + c.platformHeight + c.robotZShift, length=c.L, width=c.L, height=2*c.R, r=0, g=0, b=0, collision_group = "knock")
-		self.O1 = sim.send_cylinder(x=self.startingX, y=c.L + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=1, g=0, b=0, r1=0, r2=1, r3=0, collision_group = "stand")
-		self.O2 = sim.send_cylinder(x=c.L + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=0, g=1, b=0, r1=1, r2=0, r3=0, collision_group = "stand")
-		self.O3 = sim.send_cylinder(x=self.startingX, y=-c.L + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=0, g=0, b=1, r1=0, r2=1, r3=0, collision_group = "stand")
-		self.O4 = sim.send_cylinder(x=-c.L + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=1, g=0, b=1, r1=1, r2=0, r3=0, collision_group = "stand")
-		self.O5 = sim.send_cylinder(x=self.startingX, y=c.L*3/2 + self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=1, g=0, b=0, r1=0, r2=0, r3=1, collision_group = "stand")
-		self.O6 = sim.send_cylinder(x=c.L*3/2 + self.startingX, y=self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=0, g=1, b=0, r1=0, r2=0, r3=1, collision_group = "stand")
-		self.O7 = sim.send_cylinder(x=self.startingX, y=-c.L*3/2 + self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=0, g=0, b=1, r1=0, r2=0, r3=1, collision_group = "stand")
-		self.O8 = sim.send_cylinder(x=-c.L*3/2 + self.startingX, y=self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=1, g=0, b=1, r1=0, r2=0, r3=1, collision_group = "stand")
-		#self.O9 = sim.send_cylinder(x=0, y=c.L/2, z=c.L+2*c.R, length=c.L, radius=c.R, r=1, g=0, b=0, r1=1, r2=0, r3=0)
-		#self.O10 = sim.send_cylinder(x=c.L/2, y=0, z=c.L+2*c.R, length=c.L, radius=c.R, r=0, g=1, b=0, r1=0, r2=1, r3=0)
-		#self.O11 = sim.send_cylinder(x=0, y=-c.L/2, z=c.L+2*c.R, length=c.L, radius=c.R, r=0, g=0, b=1, r1=1, r2=0, r3=0)
-		#self.O12 = sim.send_cylinder(x=-c.L/2, y=0, z=c.L+2*c.R, length=c.L, radius=c.R, r=1, g=0, b=1, r1=0, r2=1, r3=0)
+		self.O0 = sim.send_box(x=self.startingX, y=self.startingY, z=c.L + c.R + c.platformHeight + c.robotZShift, length=c.L, width=c.L, height=2*c.R, r=self.color[0], g=self.color[1], b=self.color[2], collision_group = "knock")
+		self.O1 = sim.send_cylinder(x=self.startingX, y=c.L + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=1, r3=0, collision_group = "stand")
+		self.O2 = sim.send_cylinder(x=c.L + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=1, r2=0, r3=0, collision_group = "stand")
+		self.O3 = sim.send_cylinder(x=self.startingX, y=-c.L + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=1, r3=0, collision_group = "stand")
+		self.O4 = sim.send_cylinder(x=-c.L + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=1, r2=0, r3=0, collision_group = "stand")
+		self.O5 = sim.send_cylinder(x=self.startingX, y=c.L*3/2 + self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=0, r3=1, collision_group = "stand")
+		self.O6 = sim.send_cylinder(x=c.L*3/2 + self.startingX, y=self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=0, r3=1, collision_group = "stand")
+		self.O7 = sim.send_cylinder(x=self.startingX, y=-c.L*3/2 + self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=0, r3=1, collision_group = "stand")
+		self.O8 = sim.send_cylinder(x=-c.L*3/2 + self.startingX, y=self.startingY, z=c.L/2+c.R + c.platformHeight + c.robotZShift, length=c.L, radius=c.R, r=self.color[0], g=self.color[1], b=self.color[2], r1=0, r2=0, r3=1, collision_group = "stand")
 		self.O = {}
 		self.O[0] = self.O0
 		self.O[1] = self.O1
@@ -50,10 +47,7 @@ class ROBOT:
 		self.J5 = sim.send_hinge_joint(x=self.startingX, y=-c.L*3/2 + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=1, n2=0, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O3, second_body_id = self.O7)
 		self.J6 = sim.send_hinge_joint(x=-c.L/2 + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=0, n2=-1, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O0, second_body_id = self.O4)
 		self.J7 = sim.send_hinge_joint(x=-c.L*3/2 + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=0, n2=-1, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O4, second_body_id = self.O8)
-		#self.J8 = sim.send_hinge_joint(x=0, y=c.L/2, z=c.L+c.R, n1=1, n2=0, n3=0, lo=0, hi=0, first_body_id = self.O0, second_body_id = self.O9)
-		#self.J9 = sim.send_hinge_joint(x=c.L/2, y=0, z=c.L+c.R, n1=0, n2=1, n3=0, lo=0, hi=0, first_body_id = self.O0, second_body_id = self.O10)
-		#self.J10 = sim.send_hinge_joint(x=0, y=-c.L/2, z=c.L+c.R, n1=-1, n2=0, n3=0, lo=0, hi=0, first_body_id = self.O0, second_body_id = self.O11)
-		#self.J11 = sim.send_hinge_joint(x=-c.L/2, y=0, z=c.L+c.R, n1=0, n2=-1, n3=0, lo=0, hi=0, first_body_id = self.O0, second_body_id = self.O12)
+
 		# we only add the joints we want controlled by the newtwork to this dictionary
 		self.J = {}
 		self.J[0] = self.J0
@@ -74,8 +68,8 @@ class ROBOT:
 		#self.L2 = sim.send_light_sensor(body_id = self.O10)
 		#self.L3 = sim.send_light_sensor(body_id = self.O11)
 		#self.L4 = sim.send_light_sensor(body_id = self.O12)
-		self.R0 = sim.send_ray_sensor(body_id = self.O0, x = self.startingX, y = c.L/2 + self.startingY, z = c.L+c.R + c.platformHeight + c.robotZShift, r1 = 0, r2 = 1, r3 = 0, max_distance=10)
-		#self.O8 = sim.send_sphere(x = self.startingX, y = c.L/2 + self.startingY, z = c.L + 2*c.R + c.platformHeight + c.robotZShift, radius=c.R, r=1, g=0, b=1, collision_group = "stand")
+		self.R0 = sim.send_ray_sensor(body_id = self.O0, x = self.startingX + c.L/2, y = self.startingY + c.L/2, z = c.L+c.R + c.platformHeight + c.robotZShift, r1 = 1, r2 = 0, r3 = 0, max_distance=2)
+		#self.O8 = sim.send_sphere(x = self.startingX + c.L/2, y = self.startingY + c.L/2, z = c.L + 2*c.R + c.platformHeight + c.robotZShift, radius=c.R, r=1, g=0, b=1, collision_group = "stand")
 		#self.R1 = sim.send_ray_sensor(body_id = self.O0, x = c.L/2, y = 0, z = c.L + c.R, r1 = 1, r2 = 0, r3 = 0, max_distance=10)
 		#self.R2 = sim.send_ray_sensor(body_id = self.O0, x = 0, y = -c.L/2, z = c.L + c.R, r1 = 0, r2 = -1, r3 = 0, max_distance=10)
 		#self.R3 = sim.send_ray_sensor(body_id = self.O0, x = -c.L/2, y = 0, z = c.L + c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=10)

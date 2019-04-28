@@ -6,14 +6,22 @@ from robot import ROBOT
 import constants as c
 
 class INDIVIDUAL:
-	def __init__(self, i):
+	def __init__(self, i, color):
 		# shape of genome is (sensors, motors)
 		self.genome = numpy.random.random((6, 8)) * 2 - 1
 		self.fitnesses = []
 		self.ID = i
+		self.color = color
+
+	def Print(self):
+		print("Individual "),
+		print(self.ID),
+		print(" "),
+		print(self.fitnesses),
+		print("\n")
 
 	def sendRobotToSimulator(self, sim):
-		self.robot = ROBOT(sim, self.genome)
+		self.robot = ROBOT(sim, self.genome, self.color)
 
 	def Start_Evaluation(self, env, pp, pb):
 		self.sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
@@ -22,23 +30,8 @@ play_blind = pb)
 		env.sendEnvironmentToSimulator(self.sim)
 		self.sim.start()
 
-	def Compute_Fitness(self, env):
-		self.sim.wait_to_finish()
-		#env.countKnockedOver(self.sim)
-		position = self.robot.getXYPosition(self.sim)
-		#print("lost %.2f" % (env.getNearestDistance(position)+1)**2)
-		#print("earned %.2f" % (math.sqrt(position[0]**2 + position[1]**2)))
-		#print("knocked %d" % (5 * env.countKnockedOver(self.sim)))
-		#self.fitness -= (env.getNearestDistance(position)+1)**2
-		#self.fitness += math.sqrt(position[0]**2 + position[1]**2)
-		self.fitness += env.countKnockedOver(self.sim)
-		#self.fitness += math.sqrt((0-self.sim.get_sensor_data(sensor_id = self.robot.P1, svi=0)[-1])**2 + (0-self.sim.get_sensor_data(sensor_id = self.robot.P1, svi=1)[-1])**2)
-		#self.fitness += self.sim.get_sensor_data(sensor_id = self.robot.L1)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L2)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L3)[-1] + self.sim.get_sensor_data(sensor_id = self.robot.L4)[-1]
-		del self.sim
-
-	# this is my new fitness function for calculating the fitness of an individual with the swarm
-	def updateFitness(self, sim, wallsKnockedOver, positionalData):
-		fitness = 5 * wallsKnockedOver
+	def updateFitnessScoreList(self, sim, wallsKnockedOver, positionalData):
+		fitness = 100 * wallsKnockedOver
 		x = positionalData[0][-1]
 		y = positionalData[1][-1]
 		distanceTraveled = math.sqrt(x**2 + y**2)

@@ -5,25 +5,23 @@ import pickle
 import os
 
 def initialize_population():
-	parents = SWARM(c.swarmSize)
+	parents = SWARM(c.numSpecies)
 	parents.Initialize()
-	parents.evaluateSwarmInParallel(envs, pp=True, pb=True)
+	envs = ENVIRONMENTS()
+	parents.evaluateSwarms(envs, pp=True, pb=True)
 	return (parents)
 
 def main():
 	envs = ENVIRONMENTS()
-	if (c.loadPickledPopulation):
-		if (os.path.isfile("save.txt")):
-			parents = pickle.load(open("save.txt", "rb"))
-		else:
-			parents = initialize_population()
+	if (c.loadPickledPopulation and os.path.isfile("save.txt")):
+		parents = pickle.load(open("save.txt", "rb"))
 	else:
 		parents = initialize_population()
 
 	for g in range(1, c.numGens+1):
-		children = SWARM(c.swarmSize)
-		children.Fill_From(parents, c.copyBest)
-		children.evaluateSwarmInParallel(envs, pp=False, pb=True)
+		children = SWARM(c.numSpecies)
+		children.Fill_From(parents)
+		children.evaluateSwarms(envs, pp=False, pb=True)
 		print(g),
 		children.Print()
 		parents = children

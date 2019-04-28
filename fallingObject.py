@@ -6,6 +6,10 @@ class FALLING_OBJECT:
 	def __init__(self):
 		self.x = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
 		self.y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
+		while (abs(self.x) < (c.objectDistanceRange / 10)):
+			self.x = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
+		while (abs(self.y) < (c.objectDistanceRange / 10)):
+			self.y = random.randrange(-100 * c.objectDistanceRange, 100 * c.objectDistanceRange) / 100.
 
 	def createPlatform(self, sim):
 		#self.platform = sim.send_box(x=self.x, y=self.y, z=c.standBase/2, length=c.standBase, width=c.standBase, height=c.standBase, r=.5, g=.5, b=.5, collision_group = "topple")
