@@ -5,7 +5,7 @@ import pickle
 import os
 
 def initialize_population():
-	parents = SWARM(c.numSpecies)
+	parents = SWARM(c.numSpecies, c.speciesSize, c.mutationRate, c.evalTime, c.numEnvs)
 	parents.Initialize()
 	envs = ENVIRONMENTS()
 	parents.evaluateSwarms(envs, pp=True, pb=True)
@@ -19,7 +19,7 @@ def main():
 		parents = initialize_population()
 
 	for g in range(1, c.numGens+1):
-		children = SWARM(c.numSpecies)
+		children = SWARM(c.numSpecies, c.speciesSize, c.mutationRate, c.evalTime, c.numEnvs)
 		children.Fill_From(parents)
 		children.evaluateSwarms(envs, pp=False, pb=True)
 		print(g),

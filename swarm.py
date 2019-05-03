@@ -4,15 +4,25 @@ import constants as c
 import pyrosim
 
 class SWARM:
-	def __init__(self, numSpecies):
+	def __init__(self, numSpecies, speciesSize, mutationRate, evalTime, numEnvs):
 		self.species = {}
 		self.numSpecies = numSpecies
+		self.speciesSize = speciesSize
+		self.mutationRate = mutationRate
+		self.evalTime = evalTime
+		self.numEnvs = numEnvs
 
 	def Print(self):
 		print("[ "),
 		for i in self.species:
 			print(str(i) + ": " + str(self.species[i].getAverageFitness()) + ", "),
 		print("]")
+
+	def getFitnesses(self):
+		fitnesses = []
+		for i in self.species:
+			fitnesses.append(self.species[i].getAverageFitness())
+		return (fitnesses)
 
 	def evaluateSwarms(self, envs, pp, pb):
 		# make sure all the fitness scores are cleared before evaluation
@@ -21,8 +31,8 @@ class SWARM:
 
 		swarms = self.buildSwarms()
 		sims = []
-		for e in range(c.numEnvs):
-			sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp, play_blind = pb)
+		for e in range(self.numEnvs):
+			sim = pyrosim.Simulator(eval_time = self.evalTime, play_paused = pp, play_blind = pb)
 			for member in swarms[e]:
 				member.sendRobotToSimulator(sim)
 			envs.envs[e].buildEnvironment()
@@ -30,7 +40,7 @@ class SWARM:
 			sim.start()
 			sims.append(sim)
 
-		for e in range(c.numEnvs):
+		for e in range(self.numEnvs):
 			sim = sims[e]
 			sim.wait_to_finish()
 			self.updateIndividualFitnessScores(swarms[e], envs.envs[e], sim)
@@ -51,19 +61,19 @@ class SWARM:
 
 	def Initialize(self):
 		for i in range(0, self.numSpecies):
-			self.species[i] = SPECIES(c.speciesSize, c.speciesColors[i])
+			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate)
 			self.species[i].Initialize()
 
 	def Fill_From(self, other):
 		for i in range(self.numSpecies):
-			self.species[i] = SPECIES(c.speciesSize, c.speciesColors[i])
+			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate)
 			self.species[i].Fill_From(other.species[i], c.copyBest)
 
 	# returns a list of swarms where each swarm is a list of individuals generated from the species)
 	def buildSwarms(self):
 		selections = []
 		for i in self.species:
-			selections.append(self.species[i].getIndividualList(c.numEnvs))
+			selections.append(self.species[i].getIndividualList(self.numEnvs))
 		swarms = []
 		for i in range(len(selections[0])):
 			swarm = []

@@ -3,15 +3,16 @@ import pyrosim
 import math
 import numpy
 from robot import ROBOT
-import constants as c
 
 class INDIVIDUAL:
-	def __init__(self, i, color):
+	def __init__(self, i, color, eval_time, mutationRate):
 		# shape of genome is (sensors, motors)
-		self.genome = numpy.random.random((6, 8)) * 2 - 1
+		self.genome = numpy.random.random((9, 9)) * 2 - 1
 		self.fitnesses = []
 		self.ID = i
 		self.color = color
+		self.eval_time = eval_time
+		self.mutationRate = mutationRate
 
 	def Print(self):
 		print("Individual "),
@@ -22,13 +23,6 @@ class INDIVIDUAL:
 
 	def sendRobotToSimulator(self, sim):
 		self.robot = ROBOT(sim, self.genome, self.color)
-
-	def Start_Evaluation(self, env, pp, pb):
-		self.sim = pyrosim.Simulator(eval_time = c.evalTime, play_paused = pp,
-play_blind = pb)
-		self.robot = ROBOT(self.sim, self.genome)
-		env.sendEnvironmentToSimulator(self.sim)
-		self.sim.start()
 
 	def updateFitnessScoreList(self, sim, wallsKnockedOver, positionalData):
 		fitness = 100 * wallsKnockedOver
@@ -57,12 +51,13 @@ play_blind = pb)
 
 	def Mutate(self):
 		shape = self.genome.shape
-		geneToMutate = (random.randint(0, shape[0]-1), random.randint(0, shape[1]-1))
-		self.genome[geneToMutate] = random.gauss(self.genome[geneToMutate], math.fabs(self.genome[geneToMutate]))
-		if (self.genome[geneToMutate] > 1):
-			self.genome[geneToMutate] = 1
-		elif (self.genome[geneToMutate] < -1):
-			self.genome[geneToMutate] = -1
+		for mutation in range(self.mutationRate):
+			geneToMutate = (random.randint(0, shape[0]-1), random.randint(0, shape[1]-1))
+			self.genome[geneToMutate] = random.gauss(self.genome[geneToMutate], math.fabs(self.genome[geneToMutate]))
+			if (self.genome[geneToMutate] > 1):
+				self.genome[geneToMutate] = 1
+			elif (self.genome[geneToMutate] < -1):
+				self.genome[geneToMutate] = -1
 
 	def Print(self):
 		print('['),
