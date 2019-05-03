@@ -85,7 +85,7 @@ class ROBOT:
 			self.HN[i] = sim.send_hidden_neuron()
 		self.MN = {}
 		for j in self.J:
-			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.3)
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.2)
 			#self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j])
 
 	def send_synapses(self, sim, wts):

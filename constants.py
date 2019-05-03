@@ -3,7 +3,7 @@ robotStartDistanceRange = 0.7
 robotZShift = 0
 L = .1
 R = L/5
-topMass = 1
+topMass = .1
 speciesColors = [(1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0)]
 
 # environmental object constants
