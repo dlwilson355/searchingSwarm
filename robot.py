@@ -54,7 +54,7 @@ class ROBOT:
 		self.T2 = sim.send_touch_sensor(body_id = self.O7)
 		self.T3 = sim.send_touch_sensor(body_id = self.O8)
 		self.R0 = sim.send_ray_sensor(body_id = self.O9, x = self.startingX, y = self.startingY, z = c.L + c.R + c.platformHeight + c.robotZShift + 3*c.R, r1 = 1, r2 = 0, r3 = 0, max_distance=2)
-		self.R1 = sim.send_ray_sensor(body_id = self.O9, x = self.startingX, y = self.startingY, z = c.L + c.R + c.platformHeight + c.robotZShift + 3*c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=2)
+		#self.R1 = sim.send_ray_sensor(body_id = self.O9, x = self.startingX, y = self.startingY, z = c.L + c.R + c.platformHeight + c.robotZShift + 3*c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=2)
 		sim.send_sphere(x = self.startingX, y = self.startingY, radius=0.01)
 		self.V0 = sim.send_vestibular_sensor(body_id = self.O0)
 		self.P1 = sim.send_position_sensor(body_id = self.O0)
@@ -71,7 +71,9 @@ class ROBOT:
 			self.SN[s] = sim.send_sensor_neuron(sensor_id = self.S[s])
 		for j in range(4):
 			s += 1
-			self.SN[s] = sim.send_sensor_neuron(sensor_id = self.V0, svi=j)
+			self.SN[s] = sim.send_sensor_neuron(sensor_id = self.R0, svi=j)
+			#s += 1
+			#self.SN[s] = sim.send_sensor_neuron(sensor_id = self.R1, svi=j)
 		self.MN = {}
 		for j in self.J:
 			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = c.tau)
