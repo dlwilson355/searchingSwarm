@@ -28,10 +28,10 @@ def runGA(genomeFilepath, resultsFilepath, numSpecies, speciesSize, mutationRate
 		pickle.dump(parents, open(os.path.join("results", genomeFilepath + ".txt"), "wb"))
 
 def main():
-	tests_to_run = [{"genomeFilepath": "standardGenome", "resultsFilepath": "standardResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 20, "numGens": 3}, 
-			{"genomeFilepath": "1MutationGenome", "resultsFilepath": "1MutationResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 3},
-			{"genomeFilepath": "200EnvsGenome", "resultsFilepath": "200EnvsResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 200, "numGens": 3},
-			{"genomeFilepath": "2Species20Pop40EnvsGenome", "resultsFilepath": "2Species20Pop40EnvsResults", "numSpecies": 2, "speciesSize": 20, "mutationRate": 2, "evalTime": 2500, "numEnvs": 40, "numGens": 3}]
+	tests_to_run = [{"genomeFilepath": "standardGenome", "resultsFilepath": "standardResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 20, "numGens": 2000}, 
+			{"genomeFilepath": "1MutationGenome", "resultsFilepath": "1MutationResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 2000},
+			{"genomeFilepath": "200EnvsGenome", "resultsFilepath": "200EnvsResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 200, "numGens": 2000},
+			{"genomeFilepath": "2Species20Pop40EnvsGenome", "resultsFilepath": "2Species20Pop40EnvsResults", "numSpecies": 2, "speciesSize": 20, "mutationRate": 2, "evalTime": 2500, "numEnvs": 40, "numGens": 2000}]
 
 	for test in tests_to_run:
 		print("Running test %s." % (test))

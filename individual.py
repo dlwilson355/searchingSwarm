@@ -7,7 +7,7 @@ from robot import ROBOT
 class INDIVIDUAL:
 	def __init__(self, i, color, eval_time, mutationRate):
 		# shape of genome is (sensors, motors)
-		self.genome = numpy.random.random((9, 9)) * 2 - 1
+		self.genome = numpy.random.random((9, 8)) * 2 - 1
 		self.fitnesses = []
 		self.ID = i
 		self.color = color

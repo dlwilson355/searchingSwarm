@@ -37,7 +37,7 @@ class ROBOT:
 		self.J5 = sim.send_hinge_joint(x=self.startingX, y=-c.L*3/2 + self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=1, n2=0, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O3, second_body_id = self.O7)
 		self.J6 = sim.send_hinge_joint(x=-c.L/2 + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=0, n2=-1, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O0, second_body_id = self.O4)
 		self.J7 = sim.send_hinge_joint(x=-c.L*3/2 + self.startingX, y=self.startingY, z=c.L+c.R + c.platformHeight + c.robotZShift, n1=0, n2=-1, n3=0, lo=-3.14159/2, hi=3.14159/2, first_body_id = self.O4, second_body_id = self.O8)
-		self.J8 = sim.send_hinge_joint(x=self.startingX, y=self.startingY, z=c.L + c.R + c.platformHeight + c.robotZShift + c.R, n1=0, n2=0, n3=1, lo=-3.14159, hi=3.14159, first_body_id = self.O0, second_body_id = self.O9)
+		self.J8 = sim.send_fixed_joint(first_body_id = self.O0, second_body_id = self.O9)
 		self.J = {}
 		self.J[0] = self.J0
 		self.J[1] = self.J1
@@ -47,7 +47,6 @@ class ROBOT:
 		self.J[5] = self.J5
 		self.J[6] = self.J6
 		self.J[7] = self.J7
-		self.J[8] = self.J8
 
 	def send_sensors(self, sim):
 		self.T0 = sim.send_touch_sensor(body_id = self.O5)
@@ -55,6 +54,8 @@ class ROBOT:
 		self.T2 = sim.send_touch_sensor(body_id = self.O7)
 		self.T3 = sim.send_touch_sensor(body_id = self.O8)
 		self.R0 = sim.send_ray_sensor(body_id = self.O9, x = self.startingX, y = self.startingY, z = c.L + c.R + c.platformHeight + c.robotZShift + 3*c.R, r1 = 1, r2 = 0, r3 = 0, max_distance=2)
+		self.R1 = sim.send_ray_sensor(body_id = self.O9, x = self.startingX, y = self.startingY, z = c.L + c.R + c.platformHeight + c.robotZShift + 3*c.R, r1 = -1, r2 = 0, r3 = 0, max_distance=2)
+		sim.send_sphere(x = self.startingX, y = self.startingY, radius=0.01)
 		self.V0 = sim.send_vestibular_sensor(body_id = self.O0)
 		self.P1 = sim.send_position_sensor(body_id = self.O0)
 		self.S = {}
@@ -73,7 +74,7 @@ class ROBOT:
 			self.SN[s] = sim.send_sensor_neuron(sensor_id = self.V0, svi=j)
 		self.MN = {}
 		for j in self.J:
-			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.3)
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = c.tau)
 
 	# creates a more complex network
 	def sendNeuronsComplex(self, sim):
@@ -85,7 +86,7 @@ class ROBOT:
 			self.HN[i] = sim.send_hidden_neuron()
 		self.MN = {}
 		for j in self.J:
-			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = 0.2)
+			self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j], tau = c.tau)
 			#self.MN[j] = sim.send_motor_neuron(joint_id = self.J[j])
 
 	def send_synapses(self, sim, wts):

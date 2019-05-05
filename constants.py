@@ -5,9 +5,10 @@ L = .1
 R = L/5
 topMass = .1
 speciesColors = [(1, 0, 0), (0, 1, 0), (0, 0, 1), (1, 1, 0)]
+tau = 0.15
 
 # environmental object constants
-numObjects = 20
+numObjects = 40
 objectDistanceRange = 4
 minWallDistance = 2
 objectWidth = 0.01
@@ -24,5 +25,5 @@ numSpecies = 4
 copyBest = 3
 numGens = 3000
 numEnvs = 20
-evalTime = 2500
+evalTime = 3000
 mutationRate = 2
