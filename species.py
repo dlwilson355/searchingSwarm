@@ -3,12 +3,13 @@ import random
 import copy
 
 class SPECIES:
-	def __init__(self, speciesSize, color, eval_time, mutationRate):
+	def __init__(self, speciesSize, color, eval_time, mutationRate, position):
 		self.speciesSize = speciesSize
 		self.p = {}
 		self.color = color
 		self.eval_time = eval_time
 		self.mutationRate = mutationRate
+		self.position = position
 
 	def getAverageFitness(self):
 		fitnesses = []
@@ -19,7 +20,7 @@ class SPECIES:
 
 	def Initialize(self):
 		for i in range(0, self.speciesSize):
-			self.p[i] = INDIVIDUAL(i, self.color, self.eval_time, self.mutationRate)
+			self.p[i] = INDIVIDUAL(i, self.color, self.eval_time, self.mutationRate, self.position)
 
 	def Mutate(self):
 		for i in self.p:
@@ -36,14 +37,6 @@ class SPECIES:
 		for i in self.p:
 			self.p[i].ID = i
 			self.p[i].color = self.color
-
-	def Copy_Best_From(self, other):
-		fittest_individual = other.p[0]
-		for i in other.p:
-			if (other.p[i].getFitness() > fittest_individual.getFitness()):
-				fittest_individual = other.p[i]
-		fittest_individual_copy = copy.deepcopy(fittest_individual)
-		self.p[0] = fittest_individual_copy
 
 	def Copy_Best_From(self, other, num):
 		otherPopList = []
@@ -87,3 +80,12 @@ class SPECIES:
 			if (len(toSelect) == 0):
 				toSelect = [i for i in self.p]
 		return (toTest)
+
+	def getMostFitMember(self):
+		memberList = []
+		for i in self.p:
+			memberList.append(self.p[i])
+		sortedMembers = sorted(memberList, reverse=True)
+		for i in self.p:
+			self.p[i].Print()
+		return (sortedMembers[0])

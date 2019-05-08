@@ -46,6 +46,27 @@ class SWARM:
 			self.updateIndividualFitnessScores(swarms[e], envs.envs[e], sim)
 			del sim
 
+	# returns the swarm with the best individual from each species
+	def testEliteSwarm(self, envs):
+		elites = []
+		for i in range(self.numSpecies):
+			elites.append(self.species[i].getMostFitMember())
+		sims = []
+		for e in range(len(envs.envs)):
+			sim = pyrosim.Simulator(eval_time = self.evalTime, play_paused = True, play_blind = False)
+			for member in elites:
+				member.sendRobotToSimulator(sim)
+			envs.envs[e].buildEnvironment()
+			envs.envs[e].sendEnvironmentToSimulator(sim)
+			sim.start()
+			sims.append(sim)
+
+		for e in range(len(envs.envs)):
+			sim = sims[e]
+			sim.wait_to_finish()
+			self.updateIndividualFitnessScores(swarms[e], envs.envs[e], sim)
+			del sim
+
 	def updateIndividualFitnessScores(self, swarm, env, sim):
 		positionalDataList = self.getPositionalDataList(swarm, env, sim)
 		objectKnockedOverList = env.countRobotKnockOvers(sim, positionalDataList)
@@ -61,12 +82,12 @@ class SWARM:
 
 	def Initialize(self):
 		for i in range(0, self.numSpecies):
-			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate)
+			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate, i)
 			self.species[i].Initialize()
 
 	def Fill_From(self, other):
 		for i in range(self.numSpecies):
-			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate)
+			self.species[i] = SPECIES(self.speciesSize, c.speciesColors[i], self.evalTime, self.mutationRate, i)
 			self.species[i].Fill_From(other.species[i], c.copyBest)
 
 	# returns a list of swarms where each swarm is a list of individuals generated from the species)

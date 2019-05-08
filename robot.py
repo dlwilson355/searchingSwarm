@@ -2,10 +2,23 @@ import constants as c
 import random
 
 class ROBOT:
-	def __init__(self, sim, wts, color):
+	def __init__(self, sim, wts, color, startingPosition):
 		self.color = color
-		self.startingX = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
-		self.startingY = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
+		if (startingPosition == 0):
+			self.startingX = c.robotStartDistanceRange
+			self.startingY = c.robotStartDistanceRange
+		elif (startingPosition == 1):
+			self.startingX = -c.robotStartDistanceRange
+			self.startingY = c.robotStartDistanceRange
+		elif (startingPosition == 2):
+			self.startingX = c.robotStartDistanceRange
+			self.startingY = -c.robotStartDistanceRange
+		elif (startingPosition == 3):
+			self.startingX = -c.robotStartDistanceRange
+			self.startingY = -c.robotStartDistanceRange
+		else:
+			self.startingX = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
+			self.startingY = random.randrange(-100 * c.robotStartDistanceRange, 100 * c.robotStartDistanceRange) / 100.
 		self.send_objects(sim)
 		self.send_joints(sim)
 		self.send_sensors(sim)

@@ -28,10 +28,15 @@ def runGA(genomeFilepath, resultsFilepath, numSpecies, speciesSize, mutationRate
 		pickle.dump(parents, open(os.path.join("results", genomeFilepath + ".txt"), "wb"))
 
 def main():
-	tests_to_run = [{"genomeFilepath": "standardGenome", "resultsFilepath": "standardResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 20, "numGens": 2000}, 
-			{"genomeFilepath": "1MutationGenome", "resultsFilepath": "1MutationResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 2000},
-			{"genomeFilepath": "40EnvsGenome", "resultsFilepath": "40EnvsResults", "numSpecies": 4, "speciesSize": 10, "mutationRate": 2, "evalTime": 2500, "numEnvs": 40, "numGens": 2000},
-			{"genomeFilepath": "2Species20Pop40EnvsGenome", "resultsFilepath": "2Species20Pop40EnvsResults", "numSpecies": 2, "speciesSize": 20, "mutationRate": 2, "evalTime": 2500, "numEnvs": 40, "numGens": 2000}]
+	tests_to_run = [{"genomeFilepath": "10PopGenome1", "resultsFilepath": "10PopResults1", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 500},
+			{"genomeFilepath": "5PopGenome1", "resultsFilepath": "5PopResults1", "numSpecies": 4, "speciesSize": 5, "mutationRate": 1, "evalTime": 2500, "numEnvs": 10, "numGens": 500},
+			{"genomeFilepath": "20PopGenome1", "resultsFilepath": "20PopResults1", "numSpecies": 4, "speciesSize": 20, "mutationRate": 1, "evalTime": 2500, "numEnvs": 40, "numGens": 500},
+			{"genomeFilepath": "10PopGenome2", "resultsFilepath": "10PopResults2", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 500},
+			{"genomeFilepath": "5PopGenome2", "resultsFilepath": "5PopResults2", "numSpecies": 4, "speciesSize": 5, "mutationRate": 1, "evalTime": 2500, "numEnvs": 10, "numGens": 500},
+			{"genomeFilepath": "20PopGenome2", "resultsFilepath": "20PopResults2", "numSpecies": 4, "speciesSize": 20, "mutationRate": 1, "evalTime": 2500, "numEnvs": 40, "numGens": 500},
+			{"genomeFilepath": "10PopGenome3", "resultsFilepath": "10PopResults3", "numSpecies": 4, "speciesSize": 10, "mutationRate": 1, "evalTime": 2500, "numEnvs": 20, "numGens": 500},
+			{"genomeFilepath": "5PopGenome3", "resultsFilepath": "5PopResults3", "numSpecies": 4, "speciesSize": 5, "mutationRate": 1, "evalTime": 2500, "numEnvs": 10, "numGens": 500},
+			{"genomeFilepath": "20PopGenome3", "resultsFilepath": "20PopResults3", "numSpecies": 4, "speciesSize": 20, "mutationRate": 1, "evalTime": 2500, "numEnvs": 40, "numGens": 500}]
 
 	for test in tests_to_run:
 		print("Running test %s." % (test))

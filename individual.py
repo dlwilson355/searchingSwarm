@@ -5,7 +5,7 @@ import numpy
 from robot import ROBOT
 
 class INDIVIDUAL:
-	def __init__(self, i, color, eval_time, mutationRate):
+	def __init__(self, i, color, eval_time, mutationRate, position):
 		# shape of genome is (sensors, motors)
 		self.genome = numpy.random.random((9, 8)) * 2 - 1
 		self.fitnesses = []
@@ -13,6 +13,7 @@ class INDIVIDUAL:
 		self.color = color
 		self.eval_time = eval_time
 		self.mutationRate = mutationRate
+		self.position = position
 
 	def Print(self):
 		print("Individual "),
@@ -22,7 +23,7 @@ class INDIVIDUAL:
 		print("\n")
 
 	def sendRobotToSimulator(self, sim):
-		self.robot = ROBOT(sim, self.genome, self.color)
+		self.robot = ROBOT(sim, self.genome, self.color, self.position)
 
 	def updateFitnessScoreList(self, sim, wallsKnockedOver, positionalData):
 		fitness = 100 * wallsKnockedOver
